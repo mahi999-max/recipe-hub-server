@@ -390,7 +390,7 @@ async function run() {
 
         app.get("/api/my-purchases",verifyToken, async (req, res) => {
             try {
-                const { email } = req.query;
+                const email = req.user?.email;   // আগে ছিল: const { email } = req.query;
                 if (!email) {
                     return res.status(400).send({ message: "Email is required" });
                 }
