@@ -325,28 +325,22 @@ async function run() {
         });
 
         app.get("/api/user-status", async (req, res) => {
-            try {
-                const { email } = req.query;
-                if (!email) {
-                    return res.status(400).json({ message: "Email is required" });
-                }
+    try {
+        const { email } = req.query;
+        if (!email) {
+            return res.status(400).json({ message: "Email is required" });
+        }
 
-                // Apnar database theke user khunje ber korun (Mongoose ba MongoDB driver onujayi)
-                const dbUser = await User.findOne({ email: email });
+        const dbUser = await userCollections.findOne({ email });
 
-                if (!dbUser) {
-                    return res.status(404).json({ message: "User not found" });
-                }
-
-                // Database theke isPremium field pathiye dicchi
-                res.status(200).json({
-                    isPremium: dbUser.isPremium || false
-                });
-            } catch (error) {
-                console.error("Error fetching user status:", error);
-                res.status(500).json({ message: "Internal server error" });
-            }
+        res.status(200).json({
+            isPremium: dbUser?.isPremium || false,
         });
+    } catch (error) {
+        console.error("Error fetching user status:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
 
 
 
