@@ -388,7 +388,7 @@ async function run() {
         });
 
 
-        app.get("/api/my-purchases", async (req, res) => {
+        app.get("/api/my-purchases",verifyToken, async (req, res) => {
             try {
                 const { email } = req.query;
                 if (!email) {
