@@ -15,6 +15,7 @@ const port = 5000
 app.use(cors({
   origin: [
     "http://localhost:3000",
+    "https://recipe-hub-f35f.vercel.app",
     "https://recipe-hub-f35f-git-main-mahi999-maxs-projects.vercel.app",
   ],
   credentials: true,
