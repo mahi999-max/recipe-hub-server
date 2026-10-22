@@ -12,12 +12,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const app = express();
 app.use(express.json())
 const port = 5000
-app.use(
-    cors({
-        origin: "http://localhost:3000",
-        credentials: true
-    })
-);
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://recipe-hub-f35f-git-main-mahi999-maxs-projects.vercel.app",
+  ],
+  credentials: true,
+}));
 
 
 const client = new MongoClient(process.env.MONGO_URI);
