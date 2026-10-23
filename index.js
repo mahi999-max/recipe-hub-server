@@ -306,23 +306,18 @@ async function run() {
             }
         })
 
-        app.patch('/api/users/make-premium/:email', async (req, res) => {
-            try {
-                const email = req.params.email;
-                const filter = { email: email };
-                const updateDoc = {
-                    $set: {
-                        isPremium: true,
-                        premiumSince: new Date()
-                    }
-                };
-                const result = await userCollections.updateOne(filter, updateDoc);
-                res.send(result);
-            } catch (error) {
-                console.error("Failed to update premium status:", error);
-                res.status(500).send({ message: "Server error" });
-            }
-        });
+        app.patch("/api/users/make-premium", verifyToken, async (req, res) => {
+    try {
+        const email = req.user?.email;
+        if (!email) return res.status(400).send({ message: "Email is required" });
+
+        await userCollections.updateOne({ email }, { $set: { isPremium: true } });
+        res.send({ success: true });
+    } catch (error) {
+        console.error("make-premium error:", error);
+        res.status(500).send({ message: "Server error" });
+    }
+});
 
         app.get("/api/user-status", async (req, res) => {
     try {
